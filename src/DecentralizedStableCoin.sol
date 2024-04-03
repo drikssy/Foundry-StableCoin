@@ -1,4 +1,4 @@
-// SPDX-Licence-Identifier: MIT
+// SPDX-License-Identifier: MIT
 // This is considered an Exogenous, Decentralized, Anchored (pegged), Crypto Collateralized low volitility coin
 
 // Layout of Contract:

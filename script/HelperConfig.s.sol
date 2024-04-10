@@ -9,7 +9,6 @@ import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
 
 contract HelperConfig is Script {
     struct Config {
-        // address dscAddress;
         address wethAddress;
         address ethUsdFeedAddress;
         address wbtcAddress;

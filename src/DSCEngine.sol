@@ -48,7 +48,7 @@ pragma solidity 0.8.20;
  * for minting and redeeming DSC, as well as depositing and withdrawing collateral.
  * @notice This contract is based on the MakerDAO DSS system
  */
-contract DSCEngine is ReentrancyGuard, PriceConverter {
+contract DSCEngine is PriceConverter, ReentrancyGuard {
     /* errors */
     error DSCEngine_MustBeMoreThanZero();
     error DSCEngine_InputLenghtNotMatch();
@@ -217,6 +217,7 @@ contract DSCEngine is ReentrancyGuard, PriceConverter {
      */
     function _healthFactor(address user) private view returns (uint256) {
         (uint256 dscMinted, uint256 usdCollateralValue) = _getAccountInformation(user);
+        if (dscMinted == 0) return type(uint256).max;
         uint256 collateralAdjustedForThreshold =
             (usdCollateralValue * MINIMUM_COLLATERAL_THRESHOLD) / LIQUIDATION_PRECISION;
         return (collateralAdjustedForThreshold * PRECISION) / dscMinted;
@@ -274,13 +275,7 @@ contract DSCEngine is ReentrancyGuard, PriceConverter {
      * @param tokenCollateralAddress the address of the token to get the value of
      * @param amountCollateral the amount of the token to get the value of
      */
-    function getUsdValue(address tokenCollateralAddress, uint256 amountCollateral)
-        public
-        view
-        moreThanZero(amountCollateral)
-        isAllowedToken(tokenCollateralAddress)
-        returns (uint256)
-    {
+    function getUsdValue(address tokenCollateralAddress, uint256 amountCollateral) external view returns (uint256) {
         return _getUsdValue(tokenCollateralAddress, amountCollateral);
     }
 
